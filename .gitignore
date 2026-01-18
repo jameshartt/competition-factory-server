@@ -59,7 +59,6 @@ coverage
 dist
 build
 .webpack
-
 # Storybook
 storybook-static/
 
@@ -89,3 +88,6 @@ score-relay
 # change in every `git status` — and it is not merely cosmetic: a dirty repo
 # aborts the whole `bump-factory-consumers.sh` fan-out at preflight.
 .claude
+
+# Deploy-only: production admin seeding script (created on-demand, removed after use)
+seed-admin.js
