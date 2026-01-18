@@ -52,7 +52,6 @@ coverage
 dist
 build
 .webpack
-
 # Storybook
 storybook-static/
 
@@ -70,3 +69,6 @@ score-relay
 # Runtime locale cache lives at the project-root i18n/ — anchor with the
 # leading slash so it doesn't also swallow src/modules/i18n/.
 /i18n/
+
+# Deploy-only: production admin seeding script (created on-demand, removed after use)
+seed-admin.js
