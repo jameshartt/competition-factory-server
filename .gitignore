@@ -43,3 +43,4 @@ coverage/
 dist
 build
 .webpack
+seed-admin.js
