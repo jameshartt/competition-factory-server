@@ -6,7 +6,6 @@ import { CALENDAR_STORAGE, type ICalendarStorage } from './interfaces/calendar-s
 
 import { getCalendarEntry } from 'src/helpers/getCalendarEntry';
 import { SUCCESS } from 'src/common/constants/app';
-import { TEST } from 'src/common/constants/test';
 
 /**
  * Facade over ITournamentStorage that adds domain side-effects:
@@ -46,8 +45,6 @@ export class TournamentStorageService {
     if (!key) return { error: 'Invalid tournamentRecord' };
 
     const providerId = tournamentRecord.parentOrganisation?.organisationId;
-    if (!providerId && key !== TEST) return { error: 'Missing providerId' };
-
     if (providerId) {
       await this.addToOrUpdateCalendar({ providerId, tournamentRecord });
     }
