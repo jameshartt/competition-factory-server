@@ -8,7 +8,6 @@ import type { UserContext } from 'src/modules/account/auth/decorators/user-conte
 
 import { getCalendarEntry } from 'src/helpers/getCalendarEntry';
 import { SUCCESS } from 'src/common/constants/app';
-import { isTestTournamentId } from 'src/common/constants/test';
 
 /**
  * Facade over ITournamentStorage that adds domain side-effects:
@@ -59,9 +58,7 @@ export class TournamentStorageService {
     if (!key) return { error: 'Invalid tournamentRecord' };
 
     const providerId = tournamentRecord.parentOrganisation?.organisationId;
-    if (!providerId && !isTestTournamentId(key)) return { error: 'Missing providerId' };
 
-    // Stamp createdByUserId on first save if a userId is available
     if (userId) {
       this.stampCreatedBy(tournamentRecord, userId);
     }
