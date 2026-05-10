@@ -6,3 +6,6 @@ ignoredBuiltDependencies:
   - '@swc/core'
   - classic-level
   - unrs-resolver
+
+overrides:
+  serve-static@<2: '>=2.2.0'

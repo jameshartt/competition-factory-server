@@ -2,7 +2,7 @@
 FROM node:24-alpine AS builder
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.27.0 --activate
 
 WORKDIR /app
 
@@ -23,7 +23,7 @@ RUN pnpm build
 FROM node:24-alpine
 
 # Install pnpm and curl for health checks
-RUN corepack enable && corepack prepare pnpm@latest --activate && \
+RUN corepack enable && corepack prepare pnpm@10.27.0 --activate && \
     apk add --no-cache curl
 
 WORKDIR /app
