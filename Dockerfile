@@ -31,6 +31,10 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 
 COPY --from=builder /app/build ./build
 
+# Postgres migration-runner reads SQL files at runtime from src/storage/postgres/migrations.
+# Copy just that subtree so we keep the production image small.
+COPY --from=builder /app/src/storage/postgres/migrations ./src/storage/postgres/migrations
+
 RUN mkdir -p /app/data /app/cache && chown -R node:node /app
 
 USER node
