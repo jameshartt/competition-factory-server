@@ -37,7 +37,32 @@ node scripts/plate/populate-plate.mjs \
 
 Flags: `--tournament`, `--source-event`, `--plate-event` (required);
 `--server` (default `https://jim.tennis/api/courthive`), `--round` (default 1),
-`--apply` (default off = dry-run).
+`--apply` (default off = dry-run), `--audit` (read-only correctness check).
+
+### Audit mode
+
+```bash
+node scripts/plate/populate-plate.mjs --audit \
+  --tournament ... --source-event ... --plate-event ...
+```
+
+Reports **both** directions of discrepancy:
+- plate entries that are **not** (or no longer) a first-round loser — these
+  need a **manual swap in TMX** (this script only adds, never removes)
+- resolved losers **missing** from the plate
+
+Intentional withdrawals show up as "missing" — that's expected.
+
+### Caveat: only populate from FINAL results
+
+This script captures the loser as recorded **at the moment it runs**. If a match
+result was entered backwards (wrong winner) and corrected later, the script will
+have added the wrong player, and a corrected result won't auto-fix the plate —
+the script doesn't remove entries. Mitigation: populate only once results are
+confirmed final, and run `--audit` afterwards. To fix a stranded entry, swap
+in-place (no redraw needed) via an executionQueue of:
+`addEventEntries(correctLoser)` → `removeDrawPositionAssignment(dp)` →
+`assignDrawPosition(dp, correctLoser)` → `removeEventEntries(wrongPlayer)`.
 
 Auth alternatives to `COURTHIVE_TOKEN`: set `COURTHIVE_EMAIL` + `COURTHIVE_PASSWORD`
 and the script logs in for a token.
@@ -54,3 +79,9 @@ pending matches (by roundPosition) each run.
 Mens Singles (`0c1f8074…`) → Mens Plate (`6cc571a7…`): added 30 of 32 first-round
 losers. roundPositions 21 & 31 were unplayed — re-run to pick them up. Draw +
 seeding done manually in TMX.
+
+Follow-up (2026-06-09): `--audit` found Gabriel Mead wrongly in the plate (his
+rp4 result had been entered backwards at populate time, then corrected — Mead
+actually won). Fixed with an in-place swap to Ed Davis (no redraw). James Sloan
+(rp31 loser) withdrew, so is intentionally absent. Plate verified = all R1
+losers except Sloan.

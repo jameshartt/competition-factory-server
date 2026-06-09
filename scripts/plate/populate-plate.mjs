@@ -128,6 +128,23 @@ function existingPlateEntries(record) {
   console.log(`  to add now      : ${toAdd.length}`);
   toAdd.forEach((pid) => console.log(`    + ${names[pid] || pid}`));
 
+  // --audit: report both directions of discrepancy and stop (read-only).
+  // Catches the "result entered backwards then corrected" case — a plate entry
+  // who is no longer a first-round loser won't be auto-removed by this script
+  // (it only adds), so surface it for a manual swap in TMX.
+  if (args.audit) {
+    const loserSet = new Set(losers);
+    const wronglyEntered = [...already].filter((pid) => !loserSet.has(pid));
+    console.log('\n=== AUDIT ===');
+    console.log(`  in plate but NOT a current R1 loser (needs manual removal/swap): ${wronglyEntered.length}`);
+    wronglyEntered.forEach((pid) => console.log(`    ! ${names[pid] || pid}`));
+    console.log(`  resolved losers missing from plate: ${toAdd.length}`);
+    toAdd.forEach((pid) => console.log(`    - ${names[pid] || pid}`));
+    const clean = !wronglyEntered.length && !toAdd.length;
+    console.log(`\n  RESULT: ${clean ? 'CLEAN — plate matches resolved R1 losers' : 'DISCREPANCIES above (note: intentional withdrawals will show as missing)'}`);
+    return;
+  }
+
   if (!toAdd.length) {
     console.log('\nNothing to add. Plate entries already up to date for resolved losers.');
     return;
