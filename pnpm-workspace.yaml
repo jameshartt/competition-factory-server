@@ -40,9 +40,10 @@ allowBuilds:
   esbuild: true
   unrs-resolver: true
 
+# jim-tennis-deploy: upstream's `link:../X` overrides assume sibling repos
+# (factory, provider-config, courthive-i18n, courthive-ingest). Removed for
+# the prod Docker build, which fetches published packages from the registry.
+# courthive-ingest is unpublished — the federation-data module that needs it
+# is removed from this deploy branch (jim.tennis does no federation ingest).
 overrides:
   'serve-static@<2': '>=2.2.0'
-  tods-competition-factory: link:../factory
-  '@courthive/provider-config': link:../provider-config
-  '@courthive/i18n': link:../courthive-i18n
-  courthive-ingest: link:../courthive-ingest

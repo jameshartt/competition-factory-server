@@ -1,5 +1,7 @@
 import { TournamentSyncModule } from '../tournament-sync/tournament-sync.module';
-import { FederationDataModule } from '../federation-data/federation-data.module';
+// jim-tennis-deploy: FederationDataModule removed — it depends on the
+// unpublished `courthive-ingest` package and jim.tennis does no federation
+// data ingest. Restore the module if that package gets published.
 import { RankingsProxyModule } from '../rankings-proxy/rankings-proxy.module';
 import { RankingsWebhookModule } from '../rankings-webhook/rankings-webhook.module';
 import { ProvisionerModule } from '../provisioner/provisioner.module';
@@ -53,7 +55,6 @@ import { Module } from '@nestjs/common';
 const coreModules = [
   StorageModule,
   ConfigsModule,
-  FederationDataModule,
   I18nModule,
   RankingsWebhookModule,
   RankingsProxyModule,
