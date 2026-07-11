@@ -55,9 +55,10 @@ overrides:
   # blocking TypeScript major bumps. Remove when the toolchain supports TS7.
   typescript: 6.0.3
   'serve-static@<2': '>=2.2.0'
-  tods-competition-factory: link:../factory
-  '@courthive/provider-config': link:../provider-config
-  '@courthive/i18n': link:../courthive-i18n
+  # jim-tennis-deploy: upstream link:../ overrides for tods-competition-factory,
+  # @courthive/provider-config and @courthive/i18n are stripped here — the prod
+  # Docker build fetches these as published packages from the npm registry
+  # (versions pinned in package.json) instead of sibling monorepo checkouts.
   # Security override — brace-expansion ReDoS (GHSA-3jxr-9vmj-r5cp); dev-only,
   # via @nestjs/cli / @swc/cli / jest tooling. Patched 1.1.16 / 2.1.2; patch each major separately.
   brace-expansion@1: '>=1.1.16'
