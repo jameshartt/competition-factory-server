@@ -35,6 +35,10 @@ COPY --from=builder /app/build ./build
 # Copy just that subtree so we keep the production image small.
 COPY --from=builder /app/src/storage/postgres/migrations ./src/storage/postgres/migrations
 
+# The i18n module serves manifest + locale overlays from ./i18n at runtime;
+# sync-i18n.mjs generates that directory during the builder's pnpm build.
+COPY --from=builder /app/i18n ./i18n
+
 RUN mkdir -p /app/data /app/cache && chown -R node:node /app
 
 USER node
