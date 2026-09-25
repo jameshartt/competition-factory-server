@@ -91,3 +91,6 @@ score-relay
 
 # Deploy-only: production admin seeding script (created on-demand, removed after use)
 seed-admin.js
+
+# Local pg_dump / DB backup dumps (tournament data — never commit)
+backups/
