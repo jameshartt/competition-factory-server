@@ -1,0 +1,77 @@
+# DRAFT, never run (the fork's GitHub Actions are blocked by a billing lock).
+# Bundle image for jim-dot-tennis (see BUNDLE.md).
+#
+# Push to `bundle` or a pull request into it: link guard, lint, type check,
+# image build. Tag `bundle-v<upstream version>-jdt.<n>`: the same, then push to
+# GHCR as <upstream version>-jdt.<n>.
+#
+# Action versions follow upstream's own .github/workflows/ci.yml at the base in
+# bundle/UPSTREAM (checkout v7, pnpm/action-setup v6, setup-node v7, Node 26).
+# Upstream's ci.yml uses no docker/* actions; the versions below were not
+# checked against a current release list. Upstream's test suite (needs Postgres
+# and Redis service containers) and format check are not repeated here: the
+# bundle changes no server source, and upstream CI runs them on the base.
+name: bundle-image
+
+on:
+  push:
+    branches: [bundle]
+    tags: ['bundle-v*']
+  pull_request:
+    branches: [bundle]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Guard against link: dependencies and overrides
+        run: node bundle/check-links.mjs
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Project checks
+        run: pnpm lint && pnpm check-types
+      - name: Build arguments
+        id: args
+        run: |
+          . ./bundle/UPSTREAM
+          git merge-base --is-ancestor "$UPSTREAM_COMMIT" HEAD || { echo "::error::bundle/UPSTREAM commit is not an ancestor of HEAD"; exit 1; }
+          uv=$(node -p "require('./package.json').version")
+          if [[ "$GITHUB_REF" == refs/tags/bundle-v* ]]; then
+            version="${GITHUB_REF#refs/tags/bundle-v}"
+            [[ "$version" == "$uv"-jdt.* ]] || { echo "::error::tag $version does not start with $uv-jdt."; exit 1; }
+          else
+            version="$uv-jdt.0-ci"
+          fi
+          { echo "version=$version"; echo "uv=$uv"; echo "commit=$UPSTREAM_COMMIT"
+            echo "repo=$UPSTREAM_REPO"; echo "fork=$FORK_REPO"; echo "image=$IMAGE"; } >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@v3
+      - if: startsWith(github.ref, 'refs/tags/bundle-v')
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: ${{ startsWith(github.ref, 'refs/tags/bundle-v') }}
+          tags: ${{ steps.args.outputs.image }}:${{ steps.args.outputs.version }}
+          build-args: |
+            VERSION=${{ steps.args.outputs.version }}
+            UPSTREAM_VERSION=${{ steps.args.outputs.uv }}
+            UPSTREAM_COMMIT=${{ steps.args.outputs.commit }}
+            UPSTREAM_REPO=${{ steps.args.outputs.repo }}
+            FORK_REPO=${{ steps.args.outputs.fork }}
+            FORK_COMMIT=${{ github.sha }}

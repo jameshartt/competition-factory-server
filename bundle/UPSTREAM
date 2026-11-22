@@ -1,0 +1,9 @@
+# The upstream base of this bundle branch (sourced by bundle/build.sh and the
+# bundle-image workflow). Change it only when the branch moves to a new
+# upstream base; see BUNDLE.md, "Moving to a newer upstream".
+# Base: upstream main at release 4.19.1 (2026-11-22).
+UPSTREAM_REPO=https://github.com/CourtHive/competition-factory-server
+UPSTREAM_BRANCH=main
+UPSTREAM_COMMIT=b1f3f76004ee580c8e2d4509f282789512ff1c72
+FORK_REPO=https://github.com/jameshartt/competition-factory-server
+IMAGE=ghcr.io/jameshartt/courthive-server
