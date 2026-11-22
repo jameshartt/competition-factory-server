@@ -174,9 +174,6 @@ settings:
 overrides:
   typescript: 6.0.3
   serve-static@<2: '>=2.2.0'
-  tods-competition-factory: link:../factory
-  '@courthive/provider-config': link:../provider-config
-  '@courthive/i18n': link:../courthive-i18n
   brace-expansion@1: '>=1.1.16'
   brace-expansion@2: '>=2.1.2'
   fast-uri: ^4.0.0
@@ -188,11 +185,11 @@ importers:
   .:
     dependencies:
       '@courthive/i18n':
-        specifier: link:../courthive-i18n
-        version: link:../courthive-i18n
+        specifier: 0.13.2
+        version: 0.13.2
       '@courthive/provider-config':
-        specifier: link:../provider-config
-        version: link:../provider-config
+        specifier: 1.2.0
+        version: 1.2.0
       '@keyv/redis':
         specifier: ^6.1.0
         version: 6.1.0(keyv@6.1.0)
@@ -278,8 +275,8 @@ importers:
         specifier: 4.8.4
         version: 4.8.4(supports-color@8.1.1)
       tods-competition-factory:
-        specifier: link:../factory
-        version: link:../factory
+        specifier: 7.45.0
+        version: 7.45.0
       tslib:
         specifier: ^2.6.2
         version: 2.9.1
@@ -548,6 +545,14 @@ packages:
   '@conventional-changelog/template@1.4.1':
     resolution: {integrity: sha512-mHyyEL0eIEqJ6+aF24+AdZRo4bu4W5GdUiCiCx5X7kfDY51ye8GQJ264uOINObrRSKxtSRCOWPpl9hbOy4UzxQ==}
     engines: {node: '>=22'}
+
+  '@courthive/i18n@0.13.2':
+    resolution: {integrity: sha512-FkQ4XL8o8es986It+UpI6ha6CE7jSHbvU9rnXoW9G+uSlf35SnNXacWz4neP8sCZofRO5TdqSUndl3BboKeSAQ==}
+    engines: {node: '>=24'}
+
+  '@courthive/provider-config@1.2.0':
+    resolution: {integrity: sha512-/PC/wT/fUgKEm52noVibztV+HMKE9Z+LZ5a0Zel6U1NhLvs6ALvEi/Wh/it1lbPUJYfTJviVSVGPs/GhKy5GPw==}
+    engines: {node: '>=24'}
 
   '@dual-bundle/import-meta-resolve@4.2.1':
     resolution: {integrity: sha512-id+7YRUgoUX6CgV0DtuhirQWodeeA7Lf4i2x71JS/vtA5pRb/hIGWlw+G6MeXvsM+MXrz0VAydTGElX1rAfgPg==}
@@ -4307,6 +4312,10 @@ packages:
     resolution: {integrity: sha512-u8KszXvGfU68hVcZpRHKG28T0krMuv2G5nDhiHaMLen/gIuFEgIJhaJuO69qjnXg5paSrbPMFfx3brNuN8eVSg==}
     engines: {node: '>=14.0.0'}
 
+  tods-competition-factory@7.45.0:
+    resolution: {integrity: sha512-6nW0pU9yAHlHzjQop0A1K9C7ojibiUXgDDAXHbg4w0AU1yyJvjDwywL5OPHS7+JnMV2AX7GC/cPbSsiLjXg1Wg==}
+    engines: {node: '>=24'}
+
   toidentifier@1.0.1:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
@@ -4855,6 +4864,10 @@ snapshots:
       conventional-commits-parser: 7.1.4
 
   '@conventional-changelog/template@1.4.1': {}
+
+  '@courthive/i18n@0.13.2': {}
+
+  '@courthive/provider-config@1.2.0': {}
 
   '@dual-bundle/import-meta-resolve@4.2.1': {}
 
@@ -8372,6 +8385,8 @@ snapshots:
   tinyrainbow@3.2.0: {}
 
   tinyspy@4.0.6: {}
+
+  tods-competition-factory@7.45.0: {}
 
   toidentifier@1.0.1: {}
 
