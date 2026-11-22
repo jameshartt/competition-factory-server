@@ -1,7 +1,7 @@
 # DRAFT, never run (the fork's GitHub Actions are blocked by a billing lock).
 # Bundle image for jim-dot-tennis (see BUNDLE.md).
 #
-# Push to `bundle` or a pull request into it: link guard, lint, type check,
+# Push to `jdt-bundle` or a pull request into it: link guard, lint, type check,
 # image build. Tag `bundle-v<upstream version>-jdt.<n>`: the same, then push to
 # GHCR as <upstream version>-jdt.<n>.
 #
@@ -15,10 +15,10 @@ name: bundle-image
 
 on:
   push:
-    branches: [bundle]
+    branches: [jdt-bundle]
     tags: ['bundle-v*']
   pull_request:
-    branches: [bundle]
+    branches: [jdt-bundle]
 
 permissions:
   contents: read

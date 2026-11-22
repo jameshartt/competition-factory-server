@@ -1,6 +1,6 @@
 # Bundle branch (jim-dot-tennis)
 
-Branch `bundle` builds the image `ghcr.io/jameshartt/courthive-server` for
+Branch `jdt-bundle` builds the image `ghcr.io/jameshartt/courthive-server` for
 the jim-dot-tennis CourtHive bundle. It is the latest upstream
 CourtHive/competition-factory-server at the commit in `bundle/UPSTREAM`
 plus the small set of changes below, and nothing else. It is not built from
